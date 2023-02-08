@@ -1,0 +1,28 @@
+{
+  "name": "goit-node-hw-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/healer5/goit-node-hw-1.git"
+  },
+  "author": "Helen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/healer5/goit-node-hw-1/issues"
+  },
+  "homepage": "https://github.com/healer5/goit-node-hw-1#readme",
+  "dependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
+
+
+
