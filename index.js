@@ -1,13 +1,55 @@
-// Крок 3
-// Зроби імпорт модуля contacts.js в файлі index.js та перевір працездатність функції для роботи з контактами.
+const contactsOperations = require("./contacts.js");
+const { Command } = require("commander");
+const program = new Command();
+program
+  .option("-a, --action <type>", "choose action")
+  .option("-i, --id <type>", "user id")
+  .option("-n, --name <type>", "user name")
+  .option("-e, --email <type>", "user email")
+  .option("-p, --phone <type>", "user phone");
 
-const {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-} = require("./contacts");
+program.parse(process.argv);
 
-// Альтернатива для package.json - перевірити, що вірно
-//     "start": "node server",
-//     "start:dev": "npx nodemon server",
+const argv = program.opts();
+
+const invokeAction = async ({ action, id, name, email, phone }) => {
+  switch (action) {
+    case "list":
+      const allContacts = await contactsOperations.listContacts();
+      return console.table(allContacts);
+
+    case "get":
+      const contact = await contactsOperations.getContactById(id);
+      if (!contact) {
+        throw new Error(`Contact with id=${id}, not found`);
+      }
+      return console.log(contact);
+
+    case "add":
+      const newContact = await contactsOperations.addContact(
+        name,
+        email,
+        phone
+      );
+      return console.log(newContact);
+    // не має в домашці
+    // case "updateById":
+    //   const updateContact = await contactsOperations.updateById(id, {
+    //     name,
+    //     email,
+    //     phone,
+    //   });
+    //   return console.log(updateContact);
+    // не має в домашці
+    case "remove":
+      const deleteContact = await contactsOperations.removeContact(id);
+      if (!deleteContact) {
+        throw new Error(`Contact with id=${id}, not found`);
+      }
+      return console.log(deleteContact);
+    default:
+      return console.warn("\x1B[31m Unknown action type!");
+  }
+};
+
+invokeAction(argv);
